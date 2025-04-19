@@ -1,12 +1,8 @@
 import random
 from collections import deque
-import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
-
-
 from LabTechnician import LabTechnician
 from Sample import Sample
-
+from plotter import Plotter  # importujeme Plotter
 
 class LabSystem:
     def __init__(self, num_technicians):
@@ -16,6 +12,8 @@ class LabSystem:
         self.queues = {1: deque(), 2: deque(), 3: deque()}
         self.waiting_counts = {1: [], 2: [], 3: []}  # pre grafy
         self.stats = {'late': 0, 'total': 0}  # inicializácia štatistík
+
+        self.plotter = Plotter(self)  # vytvorenie inštancie Plotter, ale nebude sa volať priamo v simulácii
 
     def generate_samples(self):
         for _ in range(28):  # ambulancie
@@ -73,24 +71,6 @@ class LabSystem:
         self.stats['late'] = sum(total) - sum(on_time)
 
         return total, on_time
-
-    def plot_waiting_samples(self):
-        plt.figure(figsize=(12, 6))
-        base_time = datetime.strptime("07:00", "%H:%M")
-        times = [base_time + timedelta(minutes=i) for i in range(len(self.waiting_counts[1]))]
-        time_labels = [t.strftime("%H:%M") for t in times]
-
-        for cat in [1, 2, 3]:
-            plt.plot(time_labels, self.waiting_counts[cat], label=f'Kategória {cat}')
-
-        plt.xlabel("Čas")
-        plt.ylabel("Počet čakajúcich vzoriek")
-        plt.title("Počet čakajúcich vzoriek podľa kategórie počas dňa")
-        plt.xticks(time_labels[::20], rotation=45)  # zobraz každých 20 minút
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
 
     def get_late_ratio(self):
         if self.stats['total'] == 0:  # zabezpečenie delenia nulou

@@ -1,5 +1,7 @@
 from LabSystem import LabSystem
 from Experiment import Experiment
+from plotter import Plotter  # Importujeme triedu Plotter
+
 
 def manual_run():
     try:
@@ -20,7 +22,10 @@ def manual_run():
     all_samples = sum(total)
     late = all_samples - sum(on_time)
     print(f"Vzorky neskoro: {late}/{all_samples} = {late / all_samples * 100:.2f}%")
-    system.plot_waiting_samples()
+
+    # Tu sa vykreslí graf len pri manuálnom behu
+    system.plotter.plot_waiting_samples()
+
 
 
 def run_experiment():
