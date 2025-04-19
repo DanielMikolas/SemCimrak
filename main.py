@@ -30,6 +30,8 @@ def manual_run():
     for i, util in enumerate(utilization, 1):
         print(f"Tech_{i} vyťaženosť: {util * 100:.2f}%")
 
+    system.save_data_to_csv()
+
 def run_experiment():
     min_technicians = 1
     max_technicians = 50
@@ -51,6 +53,7 @@ def run_experiment():
                 utilization = min(tech.busy_time, 240) / 240  # 240 minútový pracovný čas (7:00 - 11:00)
                 print(f"{tech.name}: {utilization * 100:.2f}%")
 
+            system.save_data_to_csv()
             break
 
 

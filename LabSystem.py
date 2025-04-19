@@ -1,5 +1,7 @@
 import random
 from collections import deque
+
+from CSVExporter import CSVExporter
 from LabTechnician import LabTechnician
 from Sample import Sample
 from plotter import Plotter  # importujeme Plotter
@@ -14,6 +16,8 @@ class LabSystem:
         self.stats = {'late': 0, 'total': 0}  # inicializácia štatistík
 
         self.plotter = Plotter(self)  # vytvorenie inštancie Plotter, ale nebude sa volať priamo v simulácii
+
+        self.exporter = CSVExporter()
 
     def generate_samples(self):
         for _ in range(28):  # ambulancie
@@ -83,3 +87,8 @@ class LabSystem:
             util = min(tech.busy_time, 240) / 240 # 240 minút pracovného času
             utilization.append(util)
         return utilization
+
+    def save_data_to_csv(self):
+        # Uložíme dáta o technikoch a vzorkách do CSV
+        self.exporter.save_technicians_to_csv(self.technicians)
+        self.exporter.save_samples_to_csv(self.samples)
