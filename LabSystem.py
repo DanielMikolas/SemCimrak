@@ -76,3 +76,10 @@ class LabSystem:
         if self.stats['total'] == 0:  # zabezpečenie delenia nulou
             return 0
         return self.stats['late'] / self.stats['total']
+
+    def get_utilization(self):
+        utilization = []
+        for tech in self.technicians:
+            util = min(tech.busy_time, 240) / 240 # 240 minút pracovného času
+            utilization.append(util)
+        return utilization

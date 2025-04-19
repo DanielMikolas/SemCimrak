@@ -26,26 +26,35 @@ def manual_run():
     # Tu sa vykreslí graf len pri manuálnom behu
     system.plotter.plot_waiting_samples()
 
-
+    utilization = system.get_utilization()
+    for i, util in enumerate(utilization, 1):
+        print(f"Tech_{i} vyťaženosť: {util * 100:.2f}%")
 
 def run_experiment():
     min_technicians = 1
-    max_technicians = 50  # Určíme max počet technikov pre testovanie
-    target_late_ratio = 0.03  # 3% oneskorených vzoriek
+    max_technicians = 50
+    target_late_ratio = 0.03
 
     for num_technicians in range(min_technicians, max_technicians + 1):
         system = LabSystem(num_technicians)
         system.generate_samples()
         system.simulate_day()
         total, on_time = system.collect_stats()
-
         late_ratio = system.get_late_ratio()
 
-        # Ak neskoro spracovaných vzoriek je ≤ 3%, experiment skončí
         if late_ratio <= target_late_ratio:
             print(f"Technikov: {num_technicians}, Priemerné % neskoro: {late_ratio * 100:.2f}%")
             print(f"✅ Najmenší počet technikov s <= 3% oneskorením: {num_technicians}")
+
+            print("\n📊 Vyťaženosť technikov:")
+            for tech in system.technicians:
+                utilization = min(tech.busy_time, 240) / 240  # 240 minútový pracovný čas (7:00 - 11:00)
+                print(f"{tech.name}: {utilization * 100:.2f}%")
+
             break
+
+
+
 
 
 def main():
