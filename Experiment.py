@@ -2,7 +2,7 @@
 from LabSystem import LabSystem
 
 class Experiment:
-    def __init__(self, max_workers=50, simulations_per_setting= 3 ):
+    def __init__(self, max_workers=50, simulations_per_setting= 50 ):
         self.max_workers = max_workers
         self.simulations_per_setting = simulations_per_setting
         self.results = []

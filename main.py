@@ -41,11 +41,6 @@ def manual_run():
     # Uloženie dát do CSV
     system.save_data_to_csv()
 
-
-
-
-
-
 # def run_experiment():
 #     min_technicians = 1
 #     max_technicians = 50
