@@ -1,3 +1,4 @@
+
 class LabTechnician:
     def __init__(self, name):
         self.name = name
@@ -16,4 +17,3 @@ class LabTechnician:
         self.busy_until = sample.completed_time
         self.samples_processed.append(sample)
         self.busy_time += process_duration
-

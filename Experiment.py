@@ -2,7 +2,7 @@
 from LabSystem import LabSystem
 
 class Experiment:
-    def __init__(self, max_workers=50, simulations_per_setting=3):
+    def __init__(self, max_workers=50, simulations_per_setting= 3 ):
         self.max_workers = max_workers
         self.simulations_per_setting = simulations_per_setting
         self.results = []
@@ -16,6 +16,7 @@ class Experiment:
                 system.simulate_day()
                 late_ratio = system.get_late_ratio()
                 late_ratios.append(late_ratio)
+                print("simulation")
 
             avg_late = sum(late_ratios) / len(late_ratios)
             self.results.append((num_workers, avg_late))

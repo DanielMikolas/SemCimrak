@@ -48,7 +48,11 @@ class LabSystem:
                 if tech.is_available(self.time):
                     sample = self.get_next_sample()
                     if sample:
-                        duration = random.choices([5, 6, 7, 8, 9], weights=[1, 2, 4, 2, 1])[0]
+                        # toto je jedna moznost generovania dlzky trvania spracovania vzorky
+                        #duration = random.choices([5, 6, 7, 8, 9], weights=[1, 2, 4, 2, 1])[0]
+
+                        # toto je pouzitie trojuholnikoveho rozdelenia
+                        duration = round(random.triangular(5, 9, 7))  # Výstup zaokrúhleny na celé minúty
                         tech.process_sample(sample, self.time, duration)
 
             # pre graf: zaznam počtu čakajúcich
