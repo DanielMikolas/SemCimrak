@@ -1,19 +1,23 @@
 from LabSystem import LabSystem
 from Experiment import Experiment
+from LabTechnician import LabTechnician
 from plotter import Plotter  # Importujeme triedu Plotter
 
 
 def manual_run():
     try:
         num_technicians = int(input("Zadaj počet technikov: "))
+        simulate_breaks_input = input("Chceš simulovať prestávky pre technikov? (y/n): ").strip().lower()
+        simulate_breaks = simulate_breaks_input == "y"  # Ak je odpoveď "y", nastavíme simulate_breaks na True
     except ValueError:
         print("Zadaj platné celé číslo.")
         return
 
-    system = LabSystem(num_technicians)
-    system.generate_samples()
-    system.simulate_day()
-    total, on_time = system.collect_stats()
+    # Vytvorenie systému so zadaným počtom technikov a nastavením pre simuláciu prestávok
+    system = LabSystem(num_technicians, simulate_breaks)
+    system.generate_samples()  # Generovanie vzoriek
+    system.simulate_day()  # Simulácia dňa
+    total, on_time = system.collect_stats()  # Získanie štatistík
 
     print(f"Technikov: {num_technicians}")
     for i in range(3):
@@ -23,18 +27,25 @@ def manual_run():
     late = all_samples - sum(on_time)
     print(f"Vzorky neskoro: {late}/{all_samples} = {late / all_samples * 100:.2f}%")
 
-    # Tu sa vykreslí graf len pri manuálnom behu
+    # Vykreslíme grafy, len pri manuálnom behu
     system.plotter.plot_waiting_samples()
     system.plotter.plot_sample_categories_pie()
     system.plotter.plot_average_waiting_samples()
     system.plotter.plot_on_time_vs_late_samples()
 
+    # Vyžiadanie vyťaženosti technikov
     utilization = system.get_utilization()
     for i, util in enumerate(utilization, 1):
         print(f"Tech_{i} vyťaženosť: {util * 100:.2f}%")
 
+    # Uloženie dát do CSV
     system.save_data_to_csv()
-#
+
+
+
+
+
+
 # def run_experiment():
 #     min_technicians = 1
 #     max_technicians = 50

@@ -7,10 +7,11 @@ from Sample import Sample
 from plotter import Plotter  # importujeme Plotter
 
 class LabSystem:
-    def __init__(self, num_technicians):
+    def __init__(self, num_technicians, simulate_breaks=False):
         self.time = 0  # v minútach od 7:00
         self.samples = []
-        self.technicians = [LabTechnician(f"Tech_{i + 1}") for i in range(num_technicians)]
+        # Pridanie parametra simulate_breaks do vytvárania technikov
+        self.technicians = [LabTechnician(f"Tech_{i + 1}", simulate_breaks) for i in range(num_technicians)]
         self.queues = {1: deque(), 2: deque(), 3: deque()}
         self.waiting_counts = {1: [], 2: [], 3: []}  # pre grafy
         self.stats = {'late': 0, 'total': 0}  # inicializácia štatistík
@@ -18,6 +19,7 @@ class LabSystem:
         self.plotter = Plotter(self)  # vytvorenie inštancie Plotter, ale nebude sa volať priamo v simulácii
 
         self.exporter = CSVExporter()
+
 
     def generate_samples(self):
         for _ in range(28):  # ambulancie
